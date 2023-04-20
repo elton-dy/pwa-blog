@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  node:
+    container_name: node_pwa
+    image: 'node:alpine'
+    working_dir: /home/app
+    command:
+      - /bin/sh
+      - '-c'
+      - 'npm install && npm start'
+    ports:
+    - '8080:8080'
+    volumes:
+    - './src:/home/app'
