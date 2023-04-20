@@ -5,12 +5,18 @@
   "main": "api.js",
   "scripts": {
     "start": "http-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss build style.css -o output.css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^14.1.1"
+    "autoprefixer": "^10.4.14",
+    "http-server": "^14.1.1",
+    "postcss": "^8.4.23"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.1"
   }
 }
