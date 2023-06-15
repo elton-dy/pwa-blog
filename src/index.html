@@ -1,31 +1,30 @@
 <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="manifest" href="manifest.json">
+        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="output.css">
+        <title>PWA</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="output.css">
-    <title>PWA</title>
-</head>
+    <body>
+        <h1 class="text-4xl font-bold text-center my-6">PWA</h1>
 
-<body>
-    <h1 class="text-4xl font-bold text-center my-6">PWA</h1>
-
-    <div id="posts" class="max-w-screen-lg"></div>
-    <!-- Pagination -->
-    <nav class="my-6" aria-label="Page navigation example">
-        <ul class="inline-flex items-center -space-x-px"></ul>
-    </nav>
-    <script src="api.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js', {
-                scope: "/"
-            });
-        }
-    </script>
-</body>
+        <div id="posts" class="max-w-screen-lg"></div>
+        <!-- Pagination -->
+        <nav class="my-6" aria-label="Page navigation example">
+            <ul class="inline-flex items-center -space-x-px"></ul>
+        </nav>
+        <script src="api.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js', {
+                    scope: "/"
+                });
+            }
+        </script>
+    </body>
 
 </html>

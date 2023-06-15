@@ -1,10 +1,10 @@
 const CACHE_NAME = 'pwa-app-cache-v2';
 const CACHE_FILES = [
     '/',
-    'index.html',
     'style.css',
     'api.js',
     'offline.html',
+    'post.html',
     'output.css',
     // Ajoutez ici d'autres fichiers que vous souhaitez mettre en cache
 ];
@@ -44,12 +44,13 @@ self.addEventListener('fetch', (event) => {
             }
 
             try {
-                const fetchResponse = await fetch(event.request);
-                await cache.put(event.request, fetchResponse.clone());
-                return fetchResponse;
+                return await fetch(event.request);
             } catch (e) {
-                const offlineResponse = await cache.match('offline.html');
-                return offlineResponse;
+                if (event.request.url.includes('post.html')) {
+                    return cache.match('post.html');
+                } else {
+                    return cache.match('offline.html');
+                }
             }
         })()
     );

@@ -1,24 +1,53 @@
 <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="favicon.png">
+        <link rel="stylesheet" href="output.css">
+        <link rel="stylesheet" href="style.css">
+        <title>PWA</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="output.css">
-    <link rel="stylesheet" href="style.css">
-    <title>PWA</title>
-</head>
+    <body>
+        <h1 class="text-4xl font-bold text-center my-6">Articles hors ligne</h1>
 
-<body>
-    <h1>PWA Offline</h1>
+        <div id="posts" class="max-w-screen-lg"></div>
+        <!-- Pagination -->
+        <nav class="my-6" aria-label="Page navigation example">
+            <ul class="inline-flex items-center -space-x-px"></ul>
+        </nav>
 
-    <div id="posts" class="p9"></div>
+        <script>
+            (function () {
+                const postsContainer = document.querySelector('#posts');
 
-    <script>
-        let posts = localStorage.getItem("posts");
-        document.querySelector("#posts").innerHTML = posts;
-    </script>
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
 
-</body>
+                    if (key.startsWith('post-')) {
+                        const postData = JSON.parse(localStorage.getItem(key));
+
+                        const postCard = `
+                        <div class="p-9 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <a href="#">
+                                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">${postData.title}</h5>
+                            </a>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">${postData.body}</p>
+                            <a href="post.html?id=${postData.id}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Read more
+                                <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    `;
+
+                        postsContainer.innerHTML += postCard;
+                    }
+                }
+            })();
+        </script>
+
+    </body>
 
 </html>
