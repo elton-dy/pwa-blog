@@ -1,10 +1,15 @@
 const API_URL = 'https://jsonplaceholder.typicode.com/posts';
-
-function displayPosts(data) {
+const POSTS_PER_PAGE = 10;
+function displayPosts(data, page = 1) {
     const postsContainer = document.querySelector('#posts');
     postsContainer.innerHTML = '';
 
-    data.forEach((post) => {
+
+    const startIndex = (page - 1) * POSTS_PER_PAGE;
+    const endIndex = startIndex + POSTS_PER_PAGE;
+    const paginatedData = data.slice(startIndex, endIndex);
+
+    paginatedData.forEach((post) => {
         const postCard = `
       <div class="p-9 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <a href="#">
@@ -22,10 +27,35 @@ function displayPosts(data) {
     });
 }
 
+function displayPagination(data) {
+    const totalPages = Math.ceil(data.length / POSTS_PER_PAGE);
+    const paginationContainer = document.querySelector('nav ul');
+    paginationContainer.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const paginationElement = `
+      <li>
+        <a href="#" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" data-page="${i}">${i}</a>
+      </li>`;
+        paginationContainer.innerHTML += paginationElement;
+    }
+
+    paginationContainer.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = e.target;
+
+        if (target.tagName.toLowerCase() === 'a') {
+            const pageNumber = parseInt(target.dataset.page, 10);
+            displayPosts(data, pageNumber);
+        }
+    });
+}
+
 fetch(API_URL)
     .then((response) => response.json())
     .then((data) => {
         displayPosts(data);
+        displayPagination(data);
         localStorage.setItem('posts', JSON.stringify(data));
     })
     .catch((error) => {
