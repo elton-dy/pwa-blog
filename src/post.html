@@ -1,0 +1,50 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="output.css">
+    <title>PWA</title>
+</head>
+
+<body>
+<h1 class="text-4xl font-bold text-center my-6">Article</h1>
+<div id="post" class="max-w-screen-lg"></div>
+<a href="index.html" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    Retour
+</a>
+
+<script src="api.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js', {
+            scope: "/"
+        });
+    }
+    console.log('ici');
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+
+    if (localStorage.getItem(`post-${postId}`)) {
+        const post = localStorage.getItem(`post-${postId}`);
+
+        if (post) {
+            const postContainer = document.querySelector('#post');
+            const postCard = `
+                        <div class="p-9 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">${JSON.parse(post).title}</h2>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">${JSON.parse(post).body}</p>
+                        </div>
+                    `;
+            postContainer.innerHTML += postCard;
+        }
+    }else {
+        displayPost(postId);
+    }
+
+</script>
+</body>
+
+</html>
